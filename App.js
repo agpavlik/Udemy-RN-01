@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StyleSheet, View, FlatList } from "react-native";
+import { StyleSheet, View, FlatList, Button } from "react-native";
 // ScrollView is good for a limited amounts of content
 // FlatList is used for a big amount of content due to it renders only visible part
 
@@ -7,6 +7,7 @@ import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
 
 export default function App() {
+  const [modalIsVisible, setModalIsVisible] = useState(false);
   const [courseGoals, setCourseGoals] = useState([]);
 
   // Function add a new goal to the goals list
@@ -18,6 +19,11 @@ export default function App() {
     ]);
   }
 
+  // Function shows the modal
+  function startAddGoalHandler() {
+    setModalIsVisible(true);
+  }
+
   // Function delete the goal by tapping it.
   function deleteGoalHandler(id) {
     setCourseGoals((currentCourseGoals) => {
@@ -26,7 +32,12 @@ export default function App() {
   }
   return (
     <View style={styles.appContainer}>
-      <GoalInput onAddGoal={addGoalHandler} />
+      <Button
+        title="Add New Goal"
+        color="#5e4aaa"
+        onPress={startAddGoalHandler}
+      />
+      <GoalInput visible={modalIsVisible} onAddGoal={addGoalHandler} />
       <View style={styles.goalsContainer}>
         <FlatList
           data={courseGoals}
